@@ -52,7 +52,7 @@ sudo apt-get install libuhd-dev uhd-host
 [QT](https://askubuntu.com/questions/1404263/how-do-you-install-qt-on-ubuntu22-04)
 
 ```console
-sudo apt install qtcreator qtbase5-dev qt5-qmake
+sudo apt install qtbase5-dev
 ```
 
 [GLFW3 Dependencies](https://www.glfw.org/docs/latest/compile_guide.html)
@@ -63,9 +63,6 @@ sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
 
 [GLFW3](https://osmocom.org/projects/sdr/wiki/fosphor#GLFW3)
 
-```console
-sudo apt-get install xorg-dev libglu1-mesa-dev
-```
 ```console
 git clone https://github.com/glfw/glfw
 cd glfw
@@ -80,7 +77,6 @@ sudo ldconfig
 
 ```console
 sudo apt-get install nvidia-opencl-dev opencl-headers
-sudo apt-get install nvidia-modprobe
 ```
 
 Under "Additional Drivers", switch from nouveau to Nvidia driver, for instance nvidia-driver-550.
