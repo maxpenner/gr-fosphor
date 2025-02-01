@@ -52,7 +52,7 @@ sudo apt-get install libuhd-dev uhd-host
 [QT](https://askubuntu.com/questions/1404263/how-do-you-install-qt-on-ubuntu22-04)
 
 ```console
-sudo apt install qtcreator qtbase5-dev qt5-qmake cmake
+sudo apt install qtcreator qtbase5-dev qt5-qmake
 ```
 
 [GLFW3 Dependencies](https://www.glfw.org/docs/latest/compile_guide.html)
@@ -64,7 +64,7 @@ sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
 [GLFW3](https://osmocom.org/projects/sdr/wiki/fosphor#GLFW3)
 
 ```console
-sudo apt-get install cmake xorg-dev libglu1-mesa-dev
+sudo apt-get install xorg-dev libglu1-mesa-dev
 ```
 ```console
 git clone https://github.com/glfw/glfw
