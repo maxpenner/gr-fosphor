@@ -64,6 +64,9 @@ sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
 [GLFW3](https://osmocom.org/projects/sdr/wiki/fosphor#GLFW3)
 
 ```console
+sudo apt-get install xorg-dev libglu1-mesa-dev
+```
+```console
 git clone https://github.com/glfw/glfw
 cd glfw
 mkdir build
