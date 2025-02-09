@@ -1,5 +1,6 @@
 {
     "workbench.tree.indent": 16,
     "cmake.options.statusBarVisibility": "visible",
-    "output.smartScroll.enabled": false
+    "output.smartScroll.enabled": false,
+    "C_Cpp.autoAddFileAssociations": false
 }

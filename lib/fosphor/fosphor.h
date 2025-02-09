@@ -32,6 +32,7 @@ void fosphor_draw(struct fosphor *self, struct fosphor_render *render);
 void fosphor_set_fft_window_default(struct fosphor *self);
 void fosphor_set_fft_window(struct fosphor *self, float *win);
 
+void fosphor_set_dbm_ref_0dBFS(struct fosphor *self, int dbm_ref_0dBFS);
 void fosphor_set_power_range(struct fosphor *self, int db_ref, int db_per_div);
 void fosphor_set_frequency_range(struct fosphor *self,
                                  double center, double span);

@@ -17,6 +17,10 @@ parameters:
     label: span (Hz)
     dtype: real
     default: samp_rate
+-   id: dBm_ref_0dBFS
+    label: ref 0dBFS (dBm)
+    dtype: real
+    default: 0
 -   id: gui_hint
     label: GUI Hint
     dtype: gui_hint
@@ -44,11 +48,13 @@ templates:
         fosphor.qt_sink_c()
         self.${id}.set_fft_window(${wintype})
         self.${id}.set_frequency_range(${freq_center}, ${freq_span})
+        self.${id}.set_dbm_ref_0dBFS(${dBm_ref_0dBFS})
         ${win} = sip.wrapinstance(self.${id}.pyqwidget(), Qt.QWidget)
         ${gui_hint() % win}
     callbacks:
     - set_fft_window(${wintype})
     - set_frequency_range(${freq_center}, ${freq_span})
+    - set_dbm_ref_0dBFS(${dBm_ref_0dBFS})
 
 documentation: |-
     Key Bindings

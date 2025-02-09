@@ -59,6 +59,7 @@ namespace gr {
         SETTING_FREQUENCY_RANGE = (1 << 2),
         SETTING_FFT_WINDOW      = (1 << 3),
         SETTING_RENDER_OPTIONS  = (1 << 4),
+        SETTING_DBM_REF_0DBFS   = (1 << 5),
       };
 
       uint32_t d_settings_changed;
@@ -73,6 +74,7 @@ namespace gr {
       int d_height;
 
       static const int k_db_per_div[];
+      int d_dbm_ref_0dBFS;
       int d_db_ref;
       int d_db_per_div_idx;
 
@@ -114,6 +116,7 @@ namespace gr {
                                const double span);
       void set_frequency_center(const double center);
       void set_frequency_span(const double span);
+      void set_dbm_ref_0dBFS(const double dBm_ref_0dBFS);
 
       void set_fft_window(const gr::fft::window::win_type win);
 

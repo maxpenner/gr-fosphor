@@ -33,6 +33,18 @@ options:
     state: enabled
 
 blocks:
+- name: dBm_ref_0dBFS
+  id: variable
+  parameters:
+    comment: ''
+    value: 5-gain
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 8.0]
+    rotation: 0
+    state: enabled
 - name: freq
   id: variable_qtgui_range
   parameters:
@@ -65,7 +77,7 @@ blocks:
     rangeType: float
     start: '0'
     step: '1'
-    stop: '100'
+    stop: '60'
     value: '50'
     widget: counter_slider
   states:
@@ -79,7 +91,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: 2e6
+    value: 1000*1000*2
   states:
     bus_sink: false
     bus_source: false
@@ -87,12 +99,36 @@ blocks:
     coordinate: [184, 12]
     rotation: 0
     state: enabled
+- name: throttle_
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [424, 192.0]
+    rotation: 0
+    state: enabled
+- name: waterfall_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: 1000*1024*976/samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [624, 8.0]
+    rotation: 0
+    state: enabled
 - name: analog_fastnoise_source_x_0
   id: analog_fastnoise_source_x
   parameters:
     affinity: ''
     alias: ''
-    amp: '1'
+    amp: '0.001'
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
@@ -112,9 +148,9 @@ blocks:
   parameters:
     affinity: ''
     alias: ''
-    amp: '1'
+    amp: '0.5'
     comment: ''
-    freq: samp_rate/4
+    freq: '100'
     maxoutbuf: '0'
     minoutbuf: '0'
     offset: '0'
@@ -122,7 +158,7 @@ blocks:
     samp_rate: samp_rate
     showports: 'False'
     type: complex
-    waveform: analog.GR_COS_WAVE
+    waveform: analog.GR_SQR_WAVE
   states:
     bus_sink: false
     bus_source: false
@@ -145,7 +181,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [264, 264.0]
+    coordinate: [296, 264.0]
     rotation: 0
     state: enabled
 - name: blocks_throttle2_0
@@ -159,14 +195,14 @@ blocks:
     maximum: '0.1'
     maxoutbuf: '0'
     minoutbuf: '0'
-    samples_per_second: samp_rate
+    samples_per_second: throttle_
     type: complex
     vlen: '1'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [376, 264.0]
+    coordinate: [424, 264.0]
     rotation: 0
     state: enabled
 - name: fosphor_glfw_sink_c_0
@@ -175,6 +211,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    dBm_ref_0dBFS: dBm_ref_0dBFS
     freq_center: '0'
     freq_span: samp_rate
     maxoutbuf: '0'
@@ -184,7 +221,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 360.0]
+    coordinate: [672, 352.0]
     rotation: 0
     state: disabled
 - name: fosphor_qt_sink_c_0
@@ -193,7 +230,8 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    freq_center: '0'
+    dBm_ref_0dBFS: dBm_ref_0dBFS
+    freq_center: freq
     freq_span: samp_rate
     gui_hint: ''
     maxoutbuf: '0'
@@ -203,7 +241,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 272.0]
+    coordinate: [672, 256.0]
     rotation: 0
     state: enabled
 
@@ -211,6 +249,7 @@ connections:
 - [analog_fastnoise_source_x_0, '0', blocks_add_xx_0, '0']
 - [analog_sig_source_x_0, '0', blocks_add_xx_0, '1']
 - [blocks_add_xx_0, '0', blocks_throttle2_0, '0']
+- [blocks_throttle2_0, '0', fosphor_glfw_sink_c_0, '0']
 - [blocks_throttle2_0, '0', fosphor_qt_sink_c_0, '0']
 
 metadata:

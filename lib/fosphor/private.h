@@ -42,6 +42,7 @@ struct fosphor
 	float *buf_spectrum;
 
 	struct {
+		int dbm_ref_0dBFS;
 		int db_ref;
 		int db_per_div;
 		float scale;

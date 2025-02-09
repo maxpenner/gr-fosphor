@@ -83,6 +83,12 @@ void bind_base_sink_c(py::module& m)
 			D(base_sink_c,set_frequency_span)
 		)
 
+		.def("set_dbm_ref_0dBFS",
+			&base_sink_c::set_dbm_ref_0dBFS,
+			py::arg("dbm_ref_0dBFS"),
+			D(base_sink_c,set_dbm_ref_0dBFS)
+		)
+
 		.def("set_fft_window",
 			&base_sink_c::set_fft_window,
 			py::arg("win"),

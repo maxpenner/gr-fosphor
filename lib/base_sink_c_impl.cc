@@ -248,6 +248,10 @@ base_sink_c_impl::settings_apply(uint32_t settings)
 		);
 	}
 
+	if (settings & SETTING_DBM_REF_0DBFS) {
+		fosphor_set_dbm_ref_0dBFS(this->d_fosphor, this->d_dbm_ref_0dBFS);
+	}
+
 	if (settings & SETTING_FFT_WINDOW) {
 		std::vector<float> window =
 			gr::fft::window::build(this->d_fft_window, 1024, 6.76);
@@ -416,6 +420,12 @@ base_sink_c_impl::set_frequency_span(const double span)
 {
 	this->d_frequency.span   = span;
 	this->settings_mark_changed(SETTING_FREQUENCY_RANGE);
+}
+
+void
+base_sink_c_impl::set_dbm_ref_0dBFS(const double dBm_ref_0dBFS){
+	this->d_dbm_ref_0dBFS = dBm_ref_0dBFS;
+	this->settings_mark_changed(SETTING_DBM_REF_0DBFS);
 }
 
 void

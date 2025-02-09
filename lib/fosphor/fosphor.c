@@ -127,6 +127,11 @@ fosphor_set_fft_window(struct fosphor *self, float *win)
 	fosphor_cl_load_fft_window(self, self->fft_win);
 }
 
+void
+fosphor_set_dbm_ref_0dBFS(struct fosphor *self, int dbm_ref_0dBFS)
+{	
+	self->power.dbm_ref_0dBFS = dbm_ref_0dBFS;
+}
 
 void
 fosphor_set_power_range(struct fosphor *self, int db_ref, int db_per_div)
