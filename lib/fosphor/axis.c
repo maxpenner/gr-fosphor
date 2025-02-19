@@ -79,7 +79,7 @@ freq_axis_build(struct freq_axis *fx, double center, double span, int n_div)
 		fx->mode = FX_MODE_ABSOLUTE;
 	}
 
-	/* Select display format for abolute frequencies */
+	/* Select display format for absolute frequencies */
 	if (center != 0.0)
 	{
 		double min_freq, max_freq, big_freq;

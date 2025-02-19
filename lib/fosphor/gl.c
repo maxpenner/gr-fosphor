@@ -384,46 +384,6 @@ fosphor_gl_draw(struct fosphor *self, struct fosphor_render *render)
 	 *    requested screen area
 	 */
 
-        /* Draw waterfall */
-	if (render->options & FRO_WATERFALL)
-	{
-		x[0] = render->_x[0];
-		x[1] = render->_x[1];
-
-		y[0] = render->_y_wf[0];
-		y[1] = render->_y_wf[1];
-
-		u[0] = 0.5f + (tw / 2.0f) + render->freq_center - (render->freq_span / 2.0f);
-		u[1] = 0.5f + (tw / 2.0f) + render->freq_center + (render->freq_span / 2.0f);
-
-#define WATERFALL_FALLING
-#ifdef WATERFALL_FALLING
-	v[1] = (float)render->_wf_pos / 1024.0f;
-	v[0] = v[1] - render->wf_span;
-#else
-	v[1] = 0.0f;
-	v[0] = 1.0f;
-#endif
-
-		fosphor_gl_cmap_enable(gl->cmap_ctx,
-		                       gl->tex_waterfall, gl->cmap_waterfall,
-		                       self->power.scale, self->power.offset,
-		                       GL_CMAP_MODE_BILINEAR);
-
-		glBegin( GL_QUADS );
-		glTexCoord2f(u[0], v[0]); glVertex2f(x[0], y[0]);
-		glTexCoord2f(u[1], v[0]); glVertex2f(x[1], y[0]);
-		glTexCoord2f(u[1], v[1]); glVertex2f(x[1], y[1]);
-		glTexCoord2f(u[0], v[1]); glVertex2f(x[0], y[1]);
-		glEnd();
-
-		fosphor_gl_cmap_disable();
-
-		if (render->options & FRO_COLOR_SCALE)
-			fosphor_gl_cmap_draw_scale(gl->cmap_waterfall,
-						   x[1]+2.0f, x[1]+10.0f, y[0], y[1]);
-	}
-
 	/* Draw histogram */
 	if (render->options & FRO_HISTO)
 	{
@@ -555,6 +515,59 @@ fosphor_gl_draw(struct fosphor *self, struct fosphor_render *render)
 		glDisable(GL_BLEND);
 
 		glPopMatrix();
+	}
+
+	// draw black so live and max hold don't draw into frequency labels
+	x[0] = render->_x[0];
+	x[1] = render->_x[1];
+	y[0] = 0.0f;
+	y[1] = render->_y_histo[0];
+	glColor3f(0.0f, 0.0f, 0.0f);
+	glBegin( GL_QUADS );
+	glVertex2f(x[0], y[0]);
+	glVertex2f(x[1], y[0]);
+	glVertex2f(x[1], y[1]);
+	glVertex2f(x[0], y[1]);
+	glEnd();
+
+	/* Draw waterfall */
+	if (render->options & FRO_WATERFALL)
+	{
+		x[0] = render->_x[0];
+		x[1] = render->_x[1];
+
+		y[0] = render->_y_wf[0];
+		y[1] = render->_y_wf[1];
+
+		u[0] = 0.5f + (tw / 2.0f) + render->freq_center - (render->freq_span / 2.0f);
+		u[1] = 0.5f + (tw / 2.0f) + render->freq_center + (render->freq_span / 2.0f);
+
+#define WATERFALL_FALLING
+#ifdef WATERFALL_FALLING
+	v[1] = (float)render->_wf_pos / 1024.0f;
+	v[0] = v[1] - render->wf_span;
+#else
+	v[1] = 0.0f;
+	v[0] = 1.0f;
+#endif
+
+		fosphor_gl_cmap_enable(gl->cmap_ctx,
+		                       gl->tex_waterfall, gl->cmap_waterfall,
+		                       self->power.scale, self->power.offset,
+		                       GL_CMAP_MODE_BICUBIC);
+
+		glBegin( GL_QUADS );
+		glTexCoord2f(u[0], v[0]); glVertex2f(x[0], y[0]);
+		glTexCoord2f(u[1], v[0]); glVertex2f(x[1], y[0]);
+		glTexCoord2f(u[1], v[1]); glVertex2f(x[1], y[1]);
+		glTexCoord2f(u[0], v[1]); glVertex2f(x[0], y[1]);
+		glEnd();
+
+		fosphor_gl_cmap_disable();
+
+		if (render->options & FRO_COLOR_SCALE)
+			fosphor_gl_cmap_draw_scale(gl->cmap_waterfall,
+						   x[1]+2.0f, x[1]+10.0f, y[0], y[1]);
 	}
 
 	/* Setup frequency axis */
