@@ -16,7 +16,7 @@ options:
     output_language: python
     placement: (0,0)
     qt_qss_theme: ''
-    realtime_scheduling: ''
+    realtime_scheduling: '1'
     run: 'True'
     run_command: '{python} -u {filename}'
     run_options: prompt
@@ -33,7 +33,31 @@ options:
     state: enabled
 
 blocks:
-- name: freq
+- name: dBm_ref_0dBFS
+  id: variable
+  parameters:
+    comment: ''
+    value: dBm_ref_0dBFS_at_rf_gain_max + (rf_gain_max - rf_gain)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 200.0]
+    rotation: 0
+    state: enabled
+- name: dBm_ref_0dBFS_at_rf_gain_max
+  id: variable
+  parameters:
+    comment: ''
+    value: '-65'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 8.0]
+    rotation: 0
+    state: enabled
+- name: rf_freq
   id: variable_qtgui_range
   parameters:
     comment: ''
@@ -51,10 +75,10 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [288, 8.0]
+    coordinate: [272, 8.0]
     rotation: 0
     state: enabled
-- name: gain
+- name: rf_gain
   id: variable_qtgui_range
   parameters:
     comment: ''
@@ -65,26 +89,50 @@ blocks:
     rangeType: float
     start: '0'
     step: '1'
-    stop: '100'
-    value: '50'
+    stop: rf_gain_max
+    value: rf_gain_max
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [408, 8.0]
+    coordinate: [392, 8.0]
+    rotation: 0
+    state: enabled
+- name: rf_gain_max
+  id: variable
+  parameters:
+    comment: ''
+    value: '60'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [392, 128.0]
     rotation: 0
     state: enabled
 - name: samp_rate
   id: variable
   parameters:
     comment: ''
-    value: 200e6
+    value: 56e6
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [184, 12]
+    coordinate: [160, 8.0]
+    rotation: 0
+    state: enabled
+- name: waterfall_ms
+  id: variable
+  parameters:
+    comment: ''
+    value: 1000*1024*976/samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 8.0]
     rotation: 0
     state: enabled
 - name: fosphor_glfw_sink_c_0
@@ -93,6 +141,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    dBm_ref_0dBFS: dBm_ref_0dBFS
     freq_center: '0'
     freq_span: samp_rate
     maxoutbuf: '0'
@@ -102,7 +151,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 360.0]
+    coordinate: [496, 360.0]
     rotation: 0
     state: disabled
 - name: fosphor_qt_sink_c_0
@@ -111,6 +160,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
+    dBm_ref_0dBFS: dBm_ref_0dBFS
     freq_center: '0'
     freq_span: samp_rate
     gui_hint: ''
@@ -121,7 +171,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [608, 272.0]
+    coordinate: [496, 272.0]
     rotation: 0
     state: enabled
 - name: uhd_usrp_source_0
@@ -193,7 +243,7 @@ blocks:
     bw7: '0'
     bw8: '0'
     bw9: '0'
-    center_freq0: freq
+    center_freq0: rf_freq
     center_freq1: '0'
     center_freq10: '0'
     center_freq11: '0'
@@ -299,9 +349,9 @@ blocks:
     dc_offs_enb7: default
     dc_offs_enb8: default
     dc_offs_enb9: default
-    dev_addr: '"master_clock_rate=200e6"'
+    dev_addr: ''
     dev_args: ''
-    gain0: gain
+    gain0: rf_gain
     gain1: '0'
     gain10: '0'
     gain11: '0'
@@ -557,7 +607,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [200, 244.0]
+    coordinate: [88, 296.0]
     rotation: 0
     state: enabled
 
